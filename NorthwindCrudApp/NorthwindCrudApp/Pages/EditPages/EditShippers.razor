@@ -1,0 +1,42 @@
+﻿@page "/editshipper/{shipperId:int}"
+@inject NorthwindCrudApp.IService.IShipperService shipperService
+@using NorthwindCrudApp.Data
+@inject NavigationManager navigationManager
+
+
+<h3>EditShippers</h3>
+
+<p>
+    <MatTextField @bind-Value="@shippers.CompanyName" Label="CompanyName"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@shippers.Phone" Label="Phone"></MatTextField>
+</p>
+<MatButton OnClick="@ShipperUpdate">Save</MatButton>
+<MatButton OnClick="@Cancel">Cancel</MatButton>
+
+@code {
+    Shippers shippers = new Shippers();
+
+    [Parameter]
+    public int shipperId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(shipperId!=0)
+        {
+            shippers = await shipperService.GetById(shipperId);
+        }
+    }
+
+    protected async Task ShipperUpdate()
+    {
+        await shipperService.UpdateShipper(shippers);
+        navigationManager.NavigateTo("/shipper");    
+    }
+
+    void Cancel()
+    {
+        navigationManager.NavigateTo("/shipper");
+    }
+}

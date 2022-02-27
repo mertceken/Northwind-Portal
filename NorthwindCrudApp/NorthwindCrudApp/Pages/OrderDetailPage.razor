@@ -1,0 +1,97 @@
+﻿@page "/orderdetail"
+@inject NorthwindCrudApp.IService.IOrderDetailService orderDetailService
+@using NorthwindCrudApp.Data
+<h3>OrderDetailPage</h3>
+<MatButton Outlined="true" @onclick="@(e=>OpenDialog(false))">Add New Order Detail</MatButton>
+
+<MatTable Items="@orderDetails" Class="mat-elevation-z5" AllowSelection="true">
+    <MatTableHeader>
+        <th>OrderID</th>
+        <th>ProductID</th>
+        <th>UnitPrice</th>
+        <th>Quantity</th>
+        <th>Discount</th>
+        <th>Action</th>
+    </MatTableHeader>
+    <MatTableRow>
+        <td>@context.OrderID</td>
+        <td>@context.ProductID</td>
+        <td>@context.UnitPrice</td>
+        <td>@context.Quantity</td>
+        <td>@context.Discount</td>
+         <td>
+         <MatButton Raised="true" @onclick="@(e=>OpenDialog(true))" Icon="edit" title="Edit"></MatButton>
+         <MatButton Raised="true" @onclick="@(e=>OpenDialog(true))" Icon="restore_from_trash" title="Delete"></MatButton>
+         </td>
+    </MatTableRow>
+</MatTable>
+
+<MatDialog @bind-IsOpen="@dialogIsOpen"> 
+    <MatDialogTitle>Add/Edit Order Detail</MatDialogTitle>
+    <MatDialogContent>
+        <MatTextField Label="Product ID" @bind-Value="@orderdetail.ProductID"></MatTextField>
+        <MatTextField Label="Unit Price" @bind-Value="@orderdetail.UnitPrice"></MatTextField>
+        <MatTextField Label="Quantity" @bind-Value="@orderdetail.Quantity"></MatTextField>
+       <MatTextField Label="Discount" @bind-Value="@orderdetail.Discount"></MatTextField>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="OkClick">Add</MatButton>
+        <MatButton OnClick="CloseDialog">Close</MatButton>
+    </MatDialogActions>
+</MatDialog>
+
+@code {
+    private List<OrderDetail> orderDetails = new List<OrderDetail>();
+    OrderDetail orderdetail = new OrderDetail();
+    bool _isEdit = false;
+    bool dialogIsOpen = false;
+
+    string message = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        GetOrderDetails();
+    }
+
+    private void GetOrderDetails()
+    {
+        orderDetails = orderDetailService.GetOrderDetails();
+    }
+
+    private void GetById(int orderId)
+    {
+        orderdetail = orderDetailService.GetById(orderId);
+    }
+
+    protected async Task AddOrderDetail()
+    {
+        await orderDetailService.Add(orderdetail);
+        GetOrderDetails();
+    }
+
+  
+
+
+
+    private void OpenDialog(bool isEdit)
+    {
+        _isEdit = isEdit;
+        if (!_isEdit) orderdetail = new OrderDetail();
+        dialogIsOpen = true;
+
+    }
+    private void OkClick()
+    {
+        dialogIsOpen = false;
+        if (!_isEdit) this.AddOrderDetail();
+       ;
+
+    }
+    private void CloseDialog()
+    {
+        dialogIsOpen = false;
+        
+    }
+
+  }
+

@@ -1,0 +1,74 @@
+﻿@page "/editorders/{orderId:int}"
+@using NorthwindCrudApp.Data
+@inject NorthwindCrudApp.IService.IOrderService orderService
+@inject NavigationManager navigationManager
+
+<h3>Edit Orders</h3>
+<p>
+    <MatTextField @bind-Value="@orders.CustomerID" Label="Customer ID"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@orders.EmployeeID" Label="Employee ID"></MatTextField>
+</p>
+<p>
+    <MatDatePicker @bind-Value="@orders.OrderDate" Label="Order Date"></MatDatePicker>
+</p>
+<p>
+    <MatDatePicker @bind-Value="@orders.RequiredDate" Label="Required Date"></MatDatePicker>
+</p>
+<p>
+    <MatDatePicker @bind-Value="@orders.ShippedDate" Label="Shipped Date"></MatDatePicker>
+</p>
+<p>
+    <MatTextField @bind-Value="@orders.ShipVia" Label="Ship Via"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@orders.Freight" Label="Freight"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@orders.ShipName" Label="Ship Name"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@orders.ShipAddress" Label="Ship Address"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@orders.ShipCity" Label="Ship City"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@orders.ShipRegion" Label="Ship Region"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@orders.ShipPostalCode" Label="Ship Postal Code"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@orders.ShipCountry" Label="Ship Country"></MatTextField>
+</p>
+<MatButton OnClick="@OrderUpdate">Save</MatButton>
+<MatButton OnClick="@Cancel">Cancel</MatButton>
+
+@code {
+    Orders orders = new Orders();
+
+    [Parameter]
+    public int orderId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(orderId!=0)
+        {
+            orders = await orderService.GetById(orderId);
+        }
+    }
+
+
+    protected async Task OrderUpdate()
+    {
+        await orderService.Update(orders);
+        navigationManager.NavigateTo("/order");
+    }
+
+    void Cancel()
+    {
+        navigationManager.NavigateTo("/order");
+    }
+}

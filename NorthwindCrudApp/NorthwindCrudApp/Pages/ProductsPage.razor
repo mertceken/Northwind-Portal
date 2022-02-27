@@ -1,0 +1,127 @@
+﻿@page "/product"
+@using NorthwindCrudApp.Data;
+@inject NorthwindCrudApp.IService.IProductService productService
+<MatButton Outlined="true" @onclick="@(e=>OpenDialog(false))">Add New Product</MatButton>
+<MatTable Items="@products">
+    <MatTableHeader>
+        <th>ProductID</th>
+        <th>ProductName</th>
+        <th>SupplierID</th>
+        <th>CategoryID</th>
+        <th>QuantityPerUnit</th>
+        <th>UnitPrice</th>
+        <th>UnitsInStock</th>
+        <th>UnitsOnOrder</th>
+        <th>Reorderlevel</th>
+        <th>Discontinued</th>
+    </MatTableHeader>
+    <MatTableRow>
+        <td>@context.ProductID</td>
+        <td>@context.ProductName</td>
+        <td>@context.SupplierID</td>
+        <td>@context.CategoryID</td>
+        <td>@context.QuantityPerUnit</td>
+        <td>@context.UnitPrice</td>
+        <td>@context.UnitsInStock</td>
+        <td>@context.UnitsOnOrder</td>
+        <td>@context.ReorderLevel</td>
+        <td>@context.Discontinued</td>
+    </MatTableRow>
+</MatTable>
+
+<MatDialog @bind-isOpen="@dialogIsOpen">
+    <MatDialogTitle>Add New Product</MatDialogTitle>
+    <MatDialogContent>
+        <MatTextField Label="Product Name" @bind-Value="@product.ProductName"></MatTextField>
+        <MatSelect Outlined="true" Label="Supplier "ValueChanged="(string i) => OnChangeCategory(i)" >
+        <MatOptionString Value="-1">All</MatOptionString>
+        @foreach(var supplier in GetSupplier())
+        {
+            <MatOptionString Value="@supplier.SupplierID.ToString()">@supplier.CompanyName</MatOptionString>
+        }
+        </MatSelect>
+        <MatSelect  Outlined="true" Label="Category "ValueChanged="(string i) => OnChangeCategory(i) ">
+        <MatOptionString Value="-1">All</MatOptionString>
+        @foreach(var categories in GetCategories())
+        {
+              <MatOptionString Value="@categories.CategoryID.ToString()">@categories.CategoryName</MatOptionString>  
+        }
+        </MatSelect>
+        <MatTextField Label="Quantity Per Unit" @bind-Value="@product.QuantityPerUnit"></MatTextField>
+        <MatTextField Label="Unit Price" @bind-Value="@product.UnitPrice"></MatTextField>
+        <MatTextField Label="Units In Stock" @bind-Value="@product.UnitsInStock"></MatTextField>
+        <MatTextField Label="Units In Order" @bind-Value="@product.UnitsOnOrder"></MatTextField>
+        <MatTextField Label="Reorder Level" @bind-Value="@product.ReorderLevel"></MatTextField>
+        <MatTextField Label="Discontinued" @bind-Value="@product.Discontinued"></MatTextField>
+    </MatDialogContent>
+     <MatDialogActions>
+        <MatButton OnClick="OkClick">Add</MatButton>
+        <MatButton OnClick="CloseDialog">Close</MatButton>
+    </MatDialogActions>
+</MatDialog>
+
+
+
+@code {
+    private List<Product> products = new List<Product>();
+    private List<Categories> categoryList = new List<Categories>();
+    private List<Supplier> supplierList = new List<Supplier>();
+
+    public string SelectedValue;
+
+    bool _isEdit = false;
+    bool dialogIsOpen = false;
+
+
+    Product product = new Product();
+
+    string Message = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        GetProducts();
+    }
+
+    private void GetProducts()
+    {
+        products = productService.GetProducts();
+    }
+    protected async Task AddProducts()
+    {
+        await productService.Add(product);
+    }
+
+   
+    private void OpenDialog(bool isEdit)
+    {
+        _isEdit = isEdit;
+        if (!_isEdit) product = new Product();
+        dialogIsOpen = true;
+    }
+    private async void OkClick()
+    {
+        dialogIsOpen = false;
+        if (!_isEdit) AddProducts();
+    }
+
+    private void CloseDialog()
+    {
+        dialogIsOpen = false;
+    }
+    protected void OnChangeCategory(string value)
+    {
+
+        SelectedValue = "Selected Value: " + value;
+    } 
+
+    protected List<Supplier> GetSupplier()
+    {
+        return supplierList = productService.GetSuppliersForProducts();
+    }
+
+    protected List<Categories> GetCategories()
+    {
+        return categoryList = productService.GetCategoriesForProducts();
+    }
+
+}

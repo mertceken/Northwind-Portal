@@ -1,0 +1,47 @@
+﻿@page "/editterritories/{territoriesId:int}"
+@inject NorthwindCrudApp.IService.ITerritoriesService territoriesService
+@inject NavigationManager navigationManager
+@using NorthwindCrudApp.Data
+
+
+<h3>EditTerritories</h3>
+<p>
+<MatTextField @bind-Value="@territories.TerritoryID" Label="Territory ID"></MatTextField>
+</p>
+<p>
+<MatTextField @bind-Value="@territories.TerritoryDescription" Label="Territory Description"></MatTextField>
+</p>
+<p>
+<MatTextField @bind-Value="@territories.RegionID" Label="Region ID"></MatTextField>
+</p>
+
+<MatButton OnClick="@Update">Save</MatButton>
+<MatButton OnClick="@Cancel">Cancel</MatButton>
+@code {
+    Territories territories = new Territories();
+
+    [Parameter]
+    public int territoriesId { get; set; 
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(territoriesId!=0)
+        {
+            territories = await territoriesService.GetById(territoriesId);
+        }
+    }
+
+
+    protected async Task Update()
+    {
+        await territoriesService.Update(territories);
+        navigationManager.NavigateTo("/territories");
+
+    }
+
+    void Cancel()
+    {
+        navigationManager.NavigateTo("/territories");
+    }
+}

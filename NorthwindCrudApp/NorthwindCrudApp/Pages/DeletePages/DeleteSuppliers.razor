@@ -1,0 +1,68 @@
+﻿@page "/deletesupplier/{supplierId:int}"
+@inject NorthwindCrudApp.IService.ISupplierService supplierService
+@using NorthwindCrudApp.Data
+@inject NavigationManager navigationManager
+
+<p>
+    <MatTextField @bind-Value="@supplier.CompanyName" Label="Company Name"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@supplier.ContactName" Label="Contact Name"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@supplier.ContactTitle" Label="Contact Title"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@supplier.Address" Label="Address"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@supplier.City" Label="City"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@supplier.Region" Label="Region"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@supplier.PostalCode" Label="PostalCode"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@supplier.Country" Label="Country"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@supplier.Phone" Label="Phone"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@supplier.Fax" Label="Fax"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@supplier.HomePage" Label="Home Page"></MatTextField>
+</p>
+<MatButton OnClick="@Delete">Delete</MatButton>
+<MatButton OnClick="@Cancel">Cancel</MatButton>
+
+
+
+@code {
+    Supplier supplier = new Supplier();
+
+    [Parameter]
+    public int supplierId { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(supplierId!=0)
+        {
+            supplier = await supplierService.GetById(supplierId);
+        }
+
+    }
+    protected async Task Delete()
+    {
+        await supplierService.Delete(supplierId);
+        navigationManager.NavigateTo("/supplier");
+    }
+    void Cancel()
+    {
+         navigationManager.NavigateTo("/supplier");
+    }
+    }

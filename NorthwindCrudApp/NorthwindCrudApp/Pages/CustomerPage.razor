@@ -1,0 +1,89 @@
+﻿@page "/customer"
+@using NorthwindCrudApp.Data;
+@inject NorthwindCrudApp.IService.ICustomerService customerService;
+<MatButton Outlined="true" @onclick="@(e=>OpenDialog(false))">Add New Customer</MatButton>
+<MatTable Items="@customerList" Class="oi-elevator">
+    <MatTableHeader>
+        <th>CustomerID</th>
+        <th>CompanyName</th>
+        <th>ContactName</th>
+        <th>ContactTitle</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>Region</th>
+        <th>PostalCode</th>
+        <th>Country</th>
+        <th>Phone</th>
+        <th>Fax</th>
+    </MatTableHeader>
+    <MatTableRow>
+        <td>@context.CustomerID</td>
+        <td>@context.CompanyName</td>
+        <td>@context.ContactName</td>
+        <td>@context.ContactTitle</td>
+        <td>@context.Address</td>
+        <td>@context.City</td>
+        <td>@context.Region</td>
+        <td>@context.PostalCode</td>
+        <td>@context.Country</td>
+        <td>@context.Phone</td>
+        <td>@context.Fax</td>
+    </MatTableRow>
+</MatTable>
+<MatDialog @bind-isOpen="@dialogIsOpen">
+    <MatDialogTitle> Add New Customer</MatDialogTitle>
+    <MatDialogContent>
+        <MatTextField Label="CustomerID" @bind-Value="@customer.CustomerID"></MatTextField>
+        <MatTextField Label="Company Name" @bind-Value="@customer.CompanyName"></MatTextField>
+        <MatTextField Label="Contact Name" @bind-Value="@customer.ContactName"></MatTextField>
+         <MatTextField Label="Contact Title" @bind-Value="@customer.ContactTitle"></MatTextField>
+          <MatTextField Label="Address" @bind-Value="@customer.Address"></MatTextField>
+           <MatTextField Label="City" @bind-Value="@customer.City"></MatTextField>
+            <MatTextField Label="Region" @bind-Value="@customer.Region"></MatTextField>
+             <MatTextField Label="Postal Code" @bind-Value="@customer.PostalCode"></MatTextField>
+              <MatTextField Label="Country" @bind-Value="@customer.Country"></MatTextField>
+               <MatTextField Label="Phone" @bind-Value="@customer.Phone"></MatTextField>
+                <MatTextField Label="Fax" @bind-Value="@customer.Fax"></MatTextField>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="OkClick">Add</MatButton>
+        <MatButton OnClick="CloseDialog">Close</MatButton>
+    </MatDialogActions>
+</MatDialog>
+
+@code {
+    private List<Customer> customerList = new List<Customer>();
+    Customer customer = new Customer();
+    bool _isEdit = false;
+    bool dialogIsOpen = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        GetCustomers();
+    }
+
+    private void GetCustomers()
+    {
+        customerList = customerService.GetCustomers();
+    }
+    protected async Task AddCustomers()
+    {
+        await customerService.Add(customer);
+    }
+    private void OpenDialog(bool isEdit)
+    {
+        _isEdit = isEdit;
+        if (!_isEdit) customer = new Customer();
+        dialogIsOpen = true;
+    }
+    private async void OkClick()
+    {
+        dialogIsOpen = false;
+        if (!_isEdit) AddCustomers();
+
+    }
+    private void CloseDialog()
+    {
+        dialogIsOpen = false;
+    }
+}

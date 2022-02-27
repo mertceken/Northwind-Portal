@@ -1,0 +1,35 @@
+﻿@page "/territories"
+@using NorthwindCrudApp.Data
+@inject NorthwindCrudApp.IService.ITerritoriesService territoriesService
+
+<h3>TerritoriesPage</h3>
+<MatTable Items="@territories" Class="align-content-center">
+    <MatTableHeader>
+        <th>TerritoryID</th>
+        <th>TerritoryDescription</th>
+        <th>RegionID</th>
+    </MatTableHeader>
+    <MatTableRow>
+        <td>@context.TerritoryID</td>
+        <td>@context.TerritoryDescription</td>
+        <td>@context.RegionID</td>
+    </MatTableRow>
+</MatTable>
+
+@code {
+    private List<Territories> territories = new List<Territories>();
+    Territories territory = new Territories();
+
+    protected override async Task OnInitializedAsync()
+    {
+        GetTerritories();
+    }
+ 
+
+    private void GetTerritories()
+    {
+        territories = territoriesService.GetTerritories();
+    }
+
+
+}

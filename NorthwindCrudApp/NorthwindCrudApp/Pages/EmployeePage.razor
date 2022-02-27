@@ -1,0 +1,61 @@
+﻿@page "/employee"
+@using NorthwindCrudApp.Data;
+@inject NorthwindCrudApp.IService.IEmployeesService employeeService
+
+<h3>EmployeePage</h3>
+
+<MatTable Items="@employeesList">
+    <MatTableHeader>
+        <th>EmployeeID</th>
+        <th>LastName</th>
+        <th>FirstName</th>
+        <th>Title</th>
+        <th>TitleOfCourtesy</th>
+        <th>BirthDate</th>
+        <th>HireDate</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>Region</th>
+        <th>PostalCode</th>
+        <th>Country</th>
+        <th>HomePhone</th>
+        <th>Extension</th>
+        <th>Photo</th>
+        <th>Notes</th>
+        <th>ReportsTo</th>
+        <th>PhotoPath</th>
+    </MatTableHeader>
+    <MatTableRow>
+        <td>@context.EmployeeID</td>
+        <td>@context.LastName</td>
+        <td>@context.FirstName</td>
+        <td>@context.Title</td>
+        <td>@context.TitleOfCourtesy</td>
+        <td>@context.BirthDate</td>
+        <td>@context.HireDate</td>
+        <td>@context.Address</td>
+        <td>@context.City</td>
+        <td>@context.Region</td>
+        <td>@context.PostalCode</td>
+        <td>@context.Country</td>
+        <td>@context.HomePhone</td>
+        <td>@context.Extension</td>
+        <td>@context.Photo</td>
+        <td>@context.Notes</td>
+        <td>@context.ReportsTo</td>
+        <td>@context.PhotoPath</td>
+    </MatTableRow>
+</MatTable>
+
+@code {
+    private List<Employee> employeesList = new List<Employee>();
+    Employee employee = new Employee();
+    string message = "";
+
+    private void GetEmployees()
+    {
+        employeesList = employeeService.GetEmployees();
+    }
+
+    
+}

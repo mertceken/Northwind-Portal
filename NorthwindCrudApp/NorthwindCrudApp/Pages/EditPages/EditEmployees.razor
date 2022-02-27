@@ -1,0 +1,86 @@
+﻿@page "/editemployee/{employeeId:int}"
+@using NorthwindCrudApp.Data
+@inject NorthwindCrudApp.IService.IEmployeesService employeeService
+@inject NavigationManager navigationManager
+
+<h3>Edit Employee</h3>
+<p>
+    <MatTextField @bind-Value="@employee.LastName" Label="Last Name"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@employee.FirstName" Label="First Name"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@employee.Title" Label="Title"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@employee.TitleOfCourtesy" Label="Title of Courtesy"></MatTextField>
+</p>
+<p>
+    <MatDatePicker @bind-Value="@employee.BirthDate" Label="Birth Date"></MatDatePicker>
+</p>
+<p>
+    <MatDatePicker @bind-Value="@employee.HireDate" Label="Hire Date"></MatDatePicker>
+</p>
+<p>
+    <MatTextField @bind-Value="@employee.Address" Label="Address"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@employee.City" Label="City"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@employee.Region" Label="Region"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@employee.PostalCode" Label="Postal Code"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@employee.Country" Label="Country"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@employee.HomePhone" Label="Home Phone"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@employee.Extension" Label="Extension"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@employee.Photo" Label="Photo"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@employee.Notes" Label="Notes"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@employee.ReportsTo" Label="Reports To"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@employee.PhotoPath" Label="Photo Path"></MatTextField>
+</p>
+
+<MatButton OnClick="@Update">Save</MatButton>
+<MatButton OnClick="@Cancel">Cancel</MatButton>
+@code {
+    Employee employee = new Employee();
+
+    [Parameter]
+    public int employeeId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(employeeId!=0)
+        {
+            employee = await employeeService.GetById(employeeId);
+        }
+    }
+
+
+    protected async Task Update()
+    {
+        await employeeService.Update(employee);
+        navigationManager.NavigateTo("/employee");
+    }
+
+    void Cancel()
+    {
+        navigationManager.NavigateTo("/employee");
+    }
+}

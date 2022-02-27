@@ -1,0 +1,79 @@
+﻿@page "/shipper"
+@inject NorthwindCrudApp.IService.IShipperService shipperService
+@using NorthwindCrudApp.Data
+<MatButton Outlined="true" @onclick="@(e=>OpenDialog(false))">Add New Shipper</MatButton>
+<h3>ShippersPage</h3>
+
+<MatTable Items="@shipperList" Class="oi-elevator">
+    <MatTableHeader>
+        <th>ShipperID</th>
+        <th>CompanyName</th>
+        <th>Phone</th>
+        <th>Action</th>
+    </MatTableHeader>
+    <MatTableRow>
+        <td>@context.ShipperID</td>
+        <td>@context.CompanyName</td>
+        <td>@context.Phone</td>
+        <td>
+        <MatButton Raised="true"  Icon="edit" title="Edit"></MatButton>
+        <MatButton Raised="true" @onclick="@(e=>OpenDialog(true))" Icon="restore_from_trash" title="Delete"></MatButton>
+        </td>
+    </MatTableRow>
+</MatTable>
+<MatDialog @bind-IsOpen="@dialogIsOpen">
+    <MatDialogTitle>Add/Edit Shipper Detail</MatDialogTitle>
+    <MatDialogContent>
+        <MatTextField Label="Company Name" @bind-Value="@shippers.CompanyName"></MatTextField>
+        <MatTextField Label="Phone" @bind-Value="@shippers.Phone"></MatTextField>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="OkClick">Add</MatButton>
+        <MatButton OnClick="CloseDialog">Close</MatButton>
+    </MatDialogActions>
+</MatDialog>
+
+@code {
+    private List<Shippers> shipperList = new List<Shippers>();
+
+    Shippers shippers = new Shippers();
+
+   
+
+    bool _isEdit = false;
+    bool dialogIsOpen = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        GetShippers();
+    }
+    private void GetShippers()
+    {
+        shipperList = shipperService.GetShippers();
+    }
+    
+    protected async Task AddShippers()
+    {
+        await shipperService.AddShipper(shippers);
+        GetShippers();
+
+    }
+    private void OkClick()
+    {
+        dialogIsOpen = false;
+        if (!_isEdit) AddShippers();
+    }
+
+    private void OpenDialog(bool isEdit)
+    {
+        _isEdit = isEdit;
+        if (!_isEdit) shippers = new Shippers();
+        dialogIsOpen = true;
+
+    }
+
+    private void CloseDialog()
+    {
+        dialogIsOpen = false;
+    }
+}

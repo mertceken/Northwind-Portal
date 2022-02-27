@@ -1,0 +1,65 @@
+﻿@page "/editproducts/{productId:int}"
+@inject NorthwindCrudApp.IService.IProductService productService
+@inject NavigationManager navigationManager
+@using NorthwindCrudApp.Data
+
+<h3>EditProducts</h3>
+<p>
+    <MatTextField @bind-Value="@product.ProductName" Label="Product Name"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@product.SupplierID" Label="Supplier ID"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@product.CategoryID" Label="Category ID"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@product.QuantityPerUnit" Label="Quantity Per Unit"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@product.UnitPrice" Label="Unit Price"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@product.UnitsInStock" Label="Units In Stock"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@product.UnitsOnOrder" Label="Units In Order"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@product.ReorderLevel" Label="Reorder Level"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@product.Discontinued" Label="Discontinued"></MatTextField>
+</p>
+
+
+
+<MatButton OnClick="@Update">Save</MatButton>
+<MatButton OnClick="@Cancel">Cancel</MatButton>
+
+
+@code {
+    Product product = new Product();
+
+    [Parameter]
+    public int productId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(productId!=0)
+        {
+            product = await productService.GetProductById(productId);
+        }
+    }
+
+    protected async Task Update()
+    {
+        await productService.Update(product);
+        navigationManager.NavigateTo("/product");
+    }
+    void Cancel()
+    {
+        navigationManager.NavigateTo("/product");
+    }
+
+}

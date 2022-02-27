@@ -1,0 +1,96 @@
+﻿@page "/order"
+@using NorthwindCrudApp.Data; 
+@inject NorthwindCrudApp.IService.IOrderService orderService
+<h3>Order List Page</h3>
+
+<MatTable Items="@orders" Class="oi-elevator">
+    <MatTableHeader>
+        <th>OrderID</th>
+        <th>CustomerID</th>
+        <th>EmployeeID</th>
+        <th>OrderDate</th>
+        <th>RequiredDate</th>
+        <th>ShippedDate</th>
+        <th>ShipVia</th>
+        <th>Freight</th>
+        <th>ShipName</th>
+        <th>ShipAddress</th>
+        <th>ShipCity</th>
+        <th>ShipRegion</th>
+        <th>ShipPostalCode</th>
+        <th>ShipCountry</th>
+    </MatTableHeader>
+    <MatTableRow>
+        <td>@context.OrderID</td>
+        <td>@context.CustomerID</td>
+        <td>@context.EmployeeID</td>
+        <td>@context.OrderDate</td>
+        <td>@context.RequiredDate</td>
+        <td>@context.ShippedDate</td>
+        <td>@context.ShipVia</td>
+        <td>@context.Freight</td>
+        <td>@context.ShipName</td>
+        <td>@context.ShipAddress</td>
+        <td>@context.ShipCity</td>
+        <td>@context.ShipRegion</td>
+        <td>@context.ShipPostalCode</td>
+        <td>@context.ShipCountry</td>
+    </MatTableRow>
+</MatTable>
+
+
+
+
+@*<SfGrid @ref="OrderGrid"
+        DataSource="@orders"
+        AllowPaging="true"
+        AllowSorting="true"
+        AllowFiltering="true"
+        AllowExcelExport="true">
+     <GridPageSettings PageSize="10"></GridPageSettings>
+     <GridColumns>
+         <GridColumn Field="@nameof(Orders.OrderID)" HeaderText="Order ID" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+         <GridColumn Field="@nameof(Orders.CustomerID)" HeaderText="Customer ID" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+         <GridColumn Field="@nameof(Orders.EmployeeID)" HeaderText="Employee ID" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+         <GridColumn Field="@nameof(Orders.OrderDate)" HeaderText="Order Date" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+         <GridColumn Field="@nameof(Orders.RequiredDate)" HeaderText="Required Date" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+         <GridColumn Field="@nameof(Orders.ShippedDate)" HeaderText="Shipped Date" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+         <GridColumn Field="@nameof(Orders.ShipVia)" HeaderText="ShipVia" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+         <GridColumn Field="@nameof(Orders.Freight)" HeaderText="Freight" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+         <GridColumn Field="@nameof(Orders.ShipName)" HeaderText="ShipName" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+         <GridColumn Field="@nameof(Orders.ShipAddress)" HeaderText="ShipAddress" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+         <GridColumn Field="@nameof(Orders.ShipCity)" HeaderText="ShipCity" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+         <GridColumn Field="@nameof(Orders.ShipRegion)" HeaderText="ShipRegion" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+         <GridColumn Field="@nameof(Orders.ShipPostalCode)" HeaderText="ShipPostalCode" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+         <GridColumn Field="@nameof(Orders.ShipCountry)" HeaderText="ShipCountry" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+
+     </GridColumns>
+
+</SfGrid>*@
+
+
+
+
+
+
+@code {
+    //private SfGrid<Orders> OrderGrid;
+    private List<Orders> orders = new List<Orders>();
+    Orders order = new Orders();
+
+    string Message = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        GetOrders();
+    }
+
+    private void GetOrders()
+    {
+        orders = orderService.GetOrders();
+    }
+
+  
+
+
+}
