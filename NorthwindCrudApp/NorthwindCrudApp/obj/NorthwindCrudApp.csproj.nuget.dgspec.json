@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\source\\repos\\NorthwindCrudApp\\NorthwindCrudApp\\NorthwindCrudApp.csproj": {}
+    "C:\\Users\\User\\Documents\\GitHub\\Northwind-Portal\\NorthwindCrudApp\\NorthwindCrudApp\\NorthwindCrudApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\source\\repos\\NorthwindCrudApp\\NorthwindCrudApp\\NorthwindCrudApp.csproj": {
+    "C:\\Users\\User\\Documents\\GitHub\\Northwind-Portal\\NorthwindCrudApp\\NorthwindCrudApp\\NorthwindCrudApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\source\\repos\\NorthwindCrudApp\\NorthwindCrudApp\\NorthwindCrudApp.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Documents\\GitHub\\Northwind-Portal\\NorthwindCrudApp\\NorthwindCrudApp\\NorthwindCrudApp.csproj",
         "projectName": "NorthwindCrudApp",
-        "projectPath": "C:\\Users\\User\\source\\repos\\NorthwindCrudApp\\NorthwindCrudApp\\NorthwindCrudApp.csproj",
+        "projectPath": "C:\\Users\\User\\Documents\\GitHub\\Northwind-Portal\\NorthwindCrudApp\\NorthwindCrudApp\\NorthwindCrudApp.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\source\\repos\\NorthwindCrudApp\\NorthwindCrudApp\\obj\\",
+        "outputPath": "C:\\Users\\User\\Documents\\GitHub\\Northwind-Portal\\NorthwindCrudApp\\NorthwindCrudApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
